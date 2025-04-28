@@ -93,4 +93,9 @@ public class StudentControllerHandlingAllStudentOperationsSuchAsSaveUpdateDelete
     }
     
     @GetMapping("/count")
-    p
+    public ResponseEntity<String> studentCount(){
+        String response=studentService.studentCount();
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+}
