@@ -28,79 +28,69 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/student")
-public class StudentController {
-	
-	@Autowired
-	private StudentService studentService; //Has-A
-	
-	@PostMapping("/save") //save operation //Handler method
-	public ResponseEntity<String> saveStudent(@RequestHeader(value=StudentConstraints.STUDENT_KEY,required = true) String studentKey,
-			@RequestBody Student student){//payLoad
-		
-		if(ObjectUtils.isEmpty(studentKey)) //null or empty
-			throw new StudentKeyNotFoundException("request header missing");
-		
-		String response=studentService.saveStudent(student);
-		
-		HttpHeaders headers=new HttpHeaders();
-		headers.set(StudentConstraints.STUDENT_KEY, studentKey);
-		
-		return new ResponseEntity<>(response,headers,HttpStatus.CREATED);
-	}
-	
-	@GetMapping("/find/{id}")//retrieve Single row operation //Handler method
-	public ResponseEntity<Student> getStudentById(HttpServletRequest httpServletRequest,
-			@PathVariable("id") Long id){
-		
-		String studentKey=httpServletRequest.getHeader(StudentConstraints.STUDENT_KEY);
-		
-		if(ObjectUtils.isEmpty(studentKey)) //null or empty
-		throw new StudentKeyNotFoundException("request header missing");
-		
-		Student response=studentService.findByStudentByUsingId(id);
-		
-		HttpHeaders headers=new HttpHeaders();
-		headers.set(StudentConstraints.STUDENT_KEY, studentKey);
-		
-		return new ResponseEntity<>(response,headers,HttpStatus.OK);
-	}
-	
-	@GetMapping("/find/all")//retrieve all rows operation //Handler method
-	public ResponseEntity<List<Student>> getAllStudent(){
-		List<Student> response=studentService.findAllStudents();
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	//http://localhost:8080/student/delete/1001  @PathVariable   value
-	//http://localhost:8080/student/delete?id=1001 @RequestParam key=value
-	@DeleteMapping("/delete")
-	public ResponseEntity<String> studentDeleteById(@RequestParam Long id){
-		String response=studentService.studentDeleteById(id);
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	
-	//@PutMapping(): for full object update(Full Object Update).
-	//@PatchMapping(): for few fields update in Object(partial changes/update).
-	
-	@PatchMapping("/update/{id}")
-	public ResponseEntity<String> updateStudentById(@PathVariable("id") long id,@RequestBody Student student){
-		String response=studentService.updateStudentByUsingId(id, student);
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	
-	@GetMapping("/exists")
-	public ResponseEntity<Object> studentExistsById(@RequestParam Long id){
-		if(id<0) //less than -1<0
-			//return new ResponseEntity<>("Student Not Found!",HttpStatus.NOT_FOUND);
-			throw new StudentNotFoundException("Student Not Found! "+id);
-		
-		Boolean response=studentService.studentExistsById(id);
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	
-	@GetMapping("/count")
-	public ResponseEntity<String> studentCount(){
-		String response=studentService.studentCount();
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
+public class StudentControllerHandlingAllStudentOperationsSuchAsSaveUpdateDeleteRetrieveFindByIdCountExistenceCheckAndPartialUpdateOperationsWithHeaderValidationAndExceptionHandlingToEnsureSecureAndRobustStudentManagementInTheApplicationLayer {
 
-}
+    @Autowired
+    private StudentService studentService; //Has-A
+
+    @PostMapping("/save") //save operation //Handler method
+    public ResponseEntity<String> saveStudent(@RequestHeader(value=StudentConstraints.STUDENT_KEY,required = true) String studentKey,
+            @RequestBody Student student){//payLoad
+        
+        if(ObjectUtils.isEmpty(studentKey)) //null or empty
+            throw new StudentKeyNotFoundException("request header missing");
+        
+        String response=studentService.saveStudent(student);
+        
+        HttpHeaders headers=new HttpHeaders();
+        headers.set(StudentConstraints.STUDENT_KEY, studentKey);
+        
+        return new ResponseEntity<>(response,headers,HttpStatus.CREATED);
+    }
+    
+    @GetMapping("/find/{id}")//retrieve Single row operation //Handler method
+    public ResponseEntity<Student> getStudentById(HttpServletRequest httpServletRequest,
+            @PathVariable("id") Long id){
+        
+        String studentKey=httpServletRequest.getHeader(StudentConstraints.STUDENT_KEY);
+        
+        if(ObjectUtils.isEmpty(studentKey)) //null or empty
+        throw new StudentKeyNotFoundException("request header missing");
+        
+        Student response=studentService.findByStudentByUsingId(id);
+        
+        HttpHeaders headers=new HttpHeaders();
+        headers.set(StudentConstraints.STUDENT_KEY, studentKey);
+        
+        return new ResponseEntity<>(response,headers,HttpStatus.OK);
+    }
+    
+    @GetMapping("/find/all")//retrieve all rows operation //Handler method
+    public ResponseEntity<List<Student>> getAllStudent(){
+        List<Student> response=studentService.findAllStudents();
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> studentDeleteById(@RequestParam Long id){
+        String response=studentService.studentDeleteById(id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<String> updateStudentById(@PathVariable("id") long id,@RequestBody Student student){
+        String response=studentService.updateStudentByUsingId(id, student);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    
+    @GetMapping("/exists")
+    public ResponseEntity<Object> studentExistsById(@RequestParam Long id){
+        if(id<0)
+            throw new StudentNotFoundException("Student Not Found! "+id);
+        
+        Boolean response=studentService.studentExistsById(id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    
+    @GetMapping("/count")
+    p
