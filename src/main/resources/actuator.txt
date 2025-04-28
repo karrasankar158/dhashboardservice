@@ -1,0 +1,89 @@
+Spring Boot Actuator Theory:
+
+Step1:
+
+a. Spring boot Actuator called as Production-ready end-points or
+   production-ready features that help you to monitor your application.
+
+b. It provides a wide range of build-in end-points or
+   predefined end-points.
+
+Example:
+
+Total 14 actuator end-points are there:
+1. beans
+2. caches
+3. health (default end-point)
+4. info
+5. conditions
+6. configprops
+7. env
+8. loggers
+9. heapdump
+10. threaddump
+11. metrics
+12. sbom
+13. scheduletasks
+14. mappings.
+
+Step2:
+Add Spring boot actuator starter
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+Step3:
+Start Spring boot application once up and running observe in console by default one actuator
+end-point activated that is called as "health" and its base-path is "/actuator".
+
+Step4:
+If you want to activate all 14 end-points of actuator then use this key-value pair.
+here * means all end-points.
+#Activating all actuator end-points
+management.endpoints.web.exposure.include=*
+
+Step5: 
+If you want to activate few of actuator end-points
+management.endpoints.web.exposure.include=health,mappings
+
+Step6:
+If you want to change base-path of Spring boot actuator end-points "/actuator"
+#Changing base-path of actuator "/actuator"
+management.endpoints.web.base-path=/studentservice
+http://localhost:8080/studentservice
+
+Admin Server UI Theory
+
+Step7:
+If we check all end-points manually then it takes lot of time. 
+spring boot has provided admin server ui to access those end-points in one screen.
+
+Step8: 
+Add dependencies
+<dependency>
+     <groupId>de.codecentric</groupId>
+     <artifactId>spring-boot-admin-starter-client</artifactId>
+</dependency>
+<dependency>
+     <groupId>de.codecentric</groupId>
+     <artifactId>spring-boot-admin-starter-server</artifactId>
+</dependency>
+
+Step9:
+At starter class level add below annotation
+@EnableAdminServer
+
+Step10:
+#Register this application with admin client UI
+spring.boot.admin.client.url=http://localhost:8080
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+//Save Operation Curl:
+
+curl --location 'http://localhost:8080/student/save' \
+--header 'x-student-key: f323h32uhggig4hgbgbg' \
+--header 'Content-Type: application/json' \
+--data '{
+"id" : 997,
+"name" : "ravi",
+"branch" : "mech",
+"isMale" : true    
+}'
+
+//Read Single Row Operation Curl:
+curl --location 'http://localhost:8080/student/find/997' \
+--header 'x-student-key: 2938ty2h4ggigb4wgw'
+
+//Read All Rows Operation Curl:
+curl --location 'http://localhost:8080/student/find/all'
+
+//Student Delete by Id curl:
+curl --location --request DELETE 'http://localhost:8080/student/delete?id=1001'
+
+Update Single field Operation Curl:
+curl --location --request PATCH 'http://localhost:8080/student/update/1003' \
+--header 'Content-Type: application/json' \
+--data '{
+"name" : "Mohan"
+}'
+
+student exists by id Curl:
+curl --location 'http://localhost:8080/student/exists?id=1003'
+
+Student Count Curl:
+curl --location 'http://localhost:8080/student/count'
